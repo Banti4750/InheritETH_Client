@@ -15,6 +15,7 @@ function ContractInteractions() {
     const [signInterval, setSignInterval] = useState('');
     const [stakeAmount, setStakeAmount] = useState('');
     const [unstakeAmount, setUnstakeAmount] = useState('');
+    // const [stakeData, setStakeData] = useState<string | null>(null);
 
     const { writeContractAsync } = useWriteContract();
 
@@ -27,6 +28,29 @@ function ContractInteractions() {
         //@ts-ignore
         enabled: isConnected,
     });
+
+    // if (!stakeData) {
+    //     console.error("stakeData is undefined");
+    // } else {
+    //     const data = stakeData.split(",").join();
+    //     console.log(`stake data ${data}`);
+    // }
+
+    // Check if stakeData is undefined
+    // if (!stakeData) {
+    //     console.log("stakeData is still loading...");
+    // } else {
+    //     console.log("stakeData:", stakeData);
+    //     console.log("Type of stakeData:", typeof stakeData);
+    // }
+
+    // Convert `BigInt` values in the array to strings
+    const stakeArray = Array.isArray(stakeData)
+        ? stakeData.map((item) => (typeof item === "bigint" ? item.toString() : item))
+        : [];
+
+    // console.log("Final Stake Array:", stakeArray[2]);
+
 
     const { data: totalStake } = useReadContract({
         address: CONTRACT_ADDRESS,
@@ -160,16 +184,16 @@ function ContractInteractions() {
                             <p className="text-gray-400 text-sm">Your Balance</p>
                             <p className="font-medium text-2xl text-green-400">{
                                 //@ts-ignore
-                                stakeData.balance ? formatEther(stakeData.balance) : '0'} ETH</p>
+                                formatEther(stakeArray[0])} ETH</p>
                         </div>
                         <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
                             <p className="text-gray-400 text-sm">Last Sign In</p>
                             <p className="font-medium text-xl text-yellow-400">
                                 {
                                     //@ts-ignore
-                                    stakeData.lastSignIn && stakeData.lastSignIn > 0
+                                    stakeArray[1] && stakeArray[1] > 0
                                         //@ts-ignore
-                                        ? new Date(Number(stakeData.lastSignIn) * 1000).toLocaleString()
+                                        ? new Date(Number(stakeArray[1]) * 1000).toLocaleString()
                                         : 'Never signed in'}
                             </p>
                         </div>
@@ -178,9 +202,9 @@ function ContractInteractions() {
                             <p className="font-medium text-purple-400 truncate">
                                 {
                                     //@ts-ignore
-                                    stakeData.nominee && stakeData.nominee !== '0x0000000000000000000000000000000000000000'
+                                    stakeArray[2] && stakeArray[2] !== '0x0000000000000000000000000000000000000000'
                                         //@ts-ignore
-                                        ? stakeData.nominee
+                                        ? stakeArray[2]
                                         : 'Not set'}
                             </p>
                         </div>
@@ -189,7 +213,7 @@ function ContractInteractions() {
                             <p className="font-medium text-cyan-400">
                                 {
                                     //@ts-ignore
-                                    stakeData.signInterval ? formatTimeInterval(stakeData.signInterval) : 'Not set'}
+                                    stakeArray[3] ? formatTimeInterval(stakeArray[3]) : 'Not set'}
                             </p>
                         </div>
                     </div>
@@ -351,3 +375,7 @@ function ContractInteractions() {
 }
 
 export default ContractInteractions;
+
+
+
+
