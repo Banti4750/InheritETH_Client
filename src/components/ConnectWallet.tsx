@@ -13,7 +13,7 @@ const Navbar = () => {
             <div className="container mx-auto px-4 md:px-32">
                 <div className="bg-white/10 backdrop-blur-3xl sticky top-0 border border-white/20 shadow-xl rounded-2xl p-4 flex items-center justify-between">
                     <h1 className="bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text text-2xl font-bold">
-                        Dead Man's Switch
+                        InheritETH
                     </h1>
 
                     <div className="flex items-center gap-6">
